@@ -1,0 +1,468 @@
+JASMINE - Imaginary ISA.
+
+
+REGISTERS AND FLAGS
+
+16 64-bit registers:
+    0000        = nl (not register, flag in instruction)
+    0001 - 0100 = t0 - t3
+    0101 - 1100 = s0 - s7
+    1101        = bp
+    1110        = sp
+    1111        = ip (or floating-point flag in instruction)
+
+1 flag:
+                = COND (used to store conditional results)
+
+
+DATA TYPES
+
+BYTE - Byte
+Single-byte integer 
+
+WORD - Word
+Two-byte integer
+
+DWORD - Doubleword
+Four-byte integer
+
+QWORD - Quadword
+Eight-byte integer
+
+FLOAT - Float
+Four-byte (single-precision) floating-point number.
+
+DOUBLE - Double
+Eight-byte (double-precision) floating-point number.
+
+
+INSTRUCTION SUMMARY
+
+Arithmetic.
+ADD ADDI ABS
+SUB SUBI NEG
+MUL MULI DIV DIVI
+AND ANDI NOT
+OR ORI XOR XORI
+SH SHI
+
+Floating-Point.
+FADD FABS FSUB FNEG
+FMUL FDIV
+DADD DABS DSUB DNEG
+DMUL DDIV
+
+Memory.
+MOV MOVI
+LDB LDW LDD LDQ
+STB STW STD STQ
+RLDB RLDW RLDD RLDQ
+RSTB RSTW RSTD RSTQ
+
+Conversions.
+F2I D2I I2F I2D F2D D2F
+EXTB EXTW EXTD
+TRB TRW TRD
+
+Control Flow.
+CEQ CNE CL CLE CG CGE
+FALSE TRUE
+JMP JMPR CONST
+INT
+
+
+INSTRUCTIONS AND MNEMONICS
+
+ADD - Add
+0000 0000 <R1> <R2>
+Add R2 to R1.
+
+ADDI - Add Immediate
+0000 <R1> <I8>
+Add I8 to R1.
+
+FADD - Add Float
+0000 1111 <R1> <R2>
+Add float R2 to R1.
+
+ABS - Absolute Value
+0000 0000 0000 <R1>
+Make R1 positive.
+
+FABS - Float Absolute Value
+0000 1111 0000 <R1>
+Make float R1 positive.
+
+SUB - Subtract
+0001 0000 <R1> <R2>
+Subtract R2 from R1.
+
+SUBI - Subtract Immediate
+0001 <R1> <I8>
+Subtract I8 from R1.
+
+FSUB - Subtract Float
+0001 1111 <R1> <R2>
+Subtract float R2 from R1.
+
+NEG - Negate
+0001 0000 0000 <R1>
+Negate R1.
+
+FNEG - Negate Float
+0001 1111 0000 <R1>
+Negate float R1.
+
+MUL - Multiply
+0010 0000 <R1> <R2>
+Multiply R1 by R2.
+
+MULI - Multiply Immediate
+0010 <R1> <I8>
+Multiply R1 by I8.
+
+FMUL - Multiply Float
+0010 1111 <R1> <R2>
+Multiply float R1 by R2.
+
+DIV - Divide
+0011 0000 <R1> <R2>
+Divide R1 by R2.
+
+DIVI - Divide Immediate
+0011 <R1> <I8>
+Divide R1 by I8.
+
+FDIV - Divide Float
+0011 1111 <R1> <R2>
+Divide float R1 by R2.
+
+AND - Bitwise AND
+0100 0000 <R1> <R2>
+Bitwise AND R1 with R2.
+
+ANDI - Bitwise AND with Immediate
+0100 <R1> <I8>
+Bitwise AND R1 with I8.
+
+NOT - Bitwise NOT
+0100 0000 0000 <R1>
+Bitwise NOT R1.
+
+OR - Bitwise OR
+0101 0000 <R1> <R2>
+Bitwise OR R1 with R2.
+
+ORI - Bitwise OR with Immediate
+0101 <R1> <I8>
+Bitwise OR R1 with I8.
+
+XOR - Bitwise XOR
+0110 0000 <R1> <R2>
+Bitwise XOR R1 with R2.
+
+XORI - Bitwise XOR with Immediate
+0110 <R1> <I8>
+Bitwise XOR R1 with I8.
+
+MOV - Move
+0111 0000 <R1> <R2>
+Move R2 to R1.
+
+MOVI - Move Immediate
+0111 <R1> <I8>
+Move I8 to R1.
+
+INT - Interrupt
+0111 1111 <I8>
+Generate interrupt I8.
+
+F2I - Float to Integer
+1000 0000 <R1> <R2>
+Converts single precision float R2 to integer R1.
+
+I2F - Integer to Float
+1000 0001 <R1> <R2>
+Converts integer R2 to single precision float R1.
+
+D2I - Double to Integer
+1000 0010 <R1> <R2>
+Converts double precision float R2 to integer R1.
+
+I2D - Integer to Double
+1000 0011 <R1> <R2>
+Converts integer R2 to double precision float to R1.
+
+F2D - Float to Double
+1000 0100 <R1> <R2>
+Converts single precision float R2 to double precision float to R1.
+
+D2F - Double to Float
+1000 0101 <R1> <R2>
+Converts double precision float R2 to single precision float R1.
+
+EXTB - Extend Byte
+1000 1000 <R1> <R2>
+Sign-extends least significant byte in R2 to R1.
+
+EXTW - Extend Word
+1000 1001 <R1> <R2>
+Sign-extends least significant word in R2 to R1.
+
+EXTD - Extend Doubleword
+1000 1010 <R1> <R2>
+Sign-extends least significant doubleword in R2 to R1.
+
+TRB - Truncate Byte
+1000 1100 <R1> <R2>
+Truncates R2 to least significant byte to R1.
+
+TRW - Truncate Word
+1000 1101 <R1> <R2>
+Truncates R2 to least significant word to R1.
+
+TRD - Truncate Doubleword
+1000 1110 <R1> <R2>
+Truncates R2 to least significant doubleword to R1.
+
+DADD - Add Double
+1001 0000 <R1> <R2>
+Adds double R2 to R1.
+
+DABS - Double Absolute Value
+1001 0000 0000 <R1>
+Computes absolute value of R1.
+
+DSUB - Subtract Double
+1001 0001 <R1> <R2>
+Subtracts double R2 from R1.
+
+DNEG - Negate Double
+1001 0001 0000 <R1>
+Negates double R1.
+
+DMUL - Multiply Double
+1001 0010 <R1> <R2>
+Multiplies double R1 by R2.
+
+DDIV - Divide Double
+1001 0011 <R1> <R2>
+Divides double R1 by R2.
+
+UNUSED
+1010 ??? ??? ???
+Not currently in use.
+
+LDB - Load Byte 
+1011 0000 <R1> <R2>
+Load byte at R2 into R1.
+
+LDW - Load Word
+1011 0001 <R1> <R2>
+Load word at R2 into R1.
+
+LDD - Load Doubleword
+1011 0010 <R1> <R2>
+Load dword at R2 into R1.
+
+LDQ - Load Quadword
+1011 0011 <R1> <R2>
+Load qword at R2 into R1.
+
+STB - Store Byte
+1011 0100 <R1> <R2>
+Store R1 into byte at R2.
+
+STW - Store Word
+1011 0101 <R1> <R2>
+Store R1 into byte at R2.
+
+STD - Store Doubleword
+1011 0110 <R1> <R2>
+Store R1 into byte at R2.
+
+STQ - Store Quadword
+1011 0111 <R1> <R2>
+Store R1 into byte at R2.
+
+RLDB - Relative Load Byte
+1011 1000 <R1> <R2>
+Always followed by <I16>.
+Load byte at R2 + I16 into R1.
+
+RLDW - Relative Load Word
+1011 1001 <R1> <R2>
+Always followed by <I16>.
+Load word at R2 + I16 into R1.
+
+RLDD - Relative Load Doubleword.
+1011 1010 <R1> <R2>
+Always followed by <I16>.
+Load dword at R2 + I16 into R1.
+
+RLDQ - Relative Load Quadword
+1011 1011 <R1> <R2>
+Always followed by <I16>.
+Load qword at R2 + I16 into R1.
+
+RSTB - Relative Store Byte
+1011 1100 <R1> <R2>
+Always followed by <I16>.
+Store R1 into byte at R2 + I16.
+
+RSTW - Relative Store Word
+1011 1101 <R1> <R2>
+Always followed by <I16>.
+Store R1 into word at R2 + I16.
+
+RSTD - Relative Store Doubleword
+1011 1110 <R1> <R2>
+Always followed by <I16>.
+Store R1 into dword at R2 + I16.
+
+RSTQ - Relative Store Quadword
+1011 1111 <R1> <R2>
+Always followed by <I16>.
+Store R1 into qword at R2 + I16.
+
+UNUSED
+1100 ??? ??? ???
+Not currently in use.
+
+SH - Shift
+1101 0000 <R1> <R2>
+Shift R1 by R2.
+
+SHI - Shift Immediate
+1101 <R1> <I8>
+Shift R1 by I8.
+
+CEQ - Compare Equal
+1110 0000 <R1> <R2>
+Check if R1 equals R2.
+
+CNE - Compare Not Equal
+1110 0001 <R1> <R2>
+Check if R1 is not equal to R2.
+
+CL - Compare Less
+1110 0010 <R1> <R2>
+Check if R1 is less than R2.
+
+CLE - Compare Less or Equal
+1110 0011 <R1> <R2>
+Check if R1 is less than or equal to R2.
+
+CG - Compare Greater
+1110 0100 <R1> <R2>
+Check if R1 is greater than R2.
+
+CGE - Compare Greater or Equal
+1110 0101 <R1> <R2>
+Check if R1 is greater than or equal to R2.
+
+FALSE - False
+1110 0110 0000 0000
+False condition.
+
+TRUE - True
+1110 0111 0000 0000
+True condition.
+
+JMPR - Jump Register
+1111 <R1> <I8>
+Jumps to R1 plus I8 if true.
+
+JMP - Jump
+1111 0000 <I8>
+Relative jump by I8 if true.
+
+CONST - Constant
+1111 1111 <U8>
+Relative jump by U8, regardless of condition.
+Marks embedded constant.
+
+
+INTERRUPT CODES
+
+00000000 - EXIT
+Halts program with error code t0.
+
+00000001 - READ
+Reads t1 bytes starting from the address held in t0.
+If t1 is null, reads from standard input.
+
+00000010 - WRITE
+Writes t1 bytes starting from the address held in t2, to destination addresses starting at t0.
+If t0 is null, writes to standard output.
+
+00000011 - CLOSE
+Closes file at address t0.
+
+
+COMPOUND INSTRUCTIONS (to be implemented)
+
+PUSHB <R1> - Push Byte
+SUB SP 1
+STB SP R1
+Pushes value onto stack.
+...also PUSHW, PUSHD, PUSHQ, by changing size.
+
+POPB <R1> - Pop Byte
+LDB R1 SP
+ADD SP 1
+Pops value from stack.
+...also POPW, POPD, POPQ, by changing size.
+
+CALL <R1> - Call
+PUSHQ IP
+JMPI R1 0
+Calls (jumps to) function.
+
+RET - Return
+POPQ T0
+JMPI T0 0
+Returns from function.
+
+MOVIW <R1> <I16> - Move Immediate Word
+RLDW 4
+CONST 2
+<I16>
+Moves two-byte immediate into R1.
+
+MOVID <R1> <I32> - Move Immediate Doubleword
+RLDD 4
+CONST 4
+<I32>
+Moves four-byte immediate into R1.
+
+MOVIQ <R1> <I64> - Move Immediate Quadword
+RLDQ 4
+CONST 8
+<I64>
+Moves eight-byte immediate into R1.
+
+
+MACROS
+
+.b - Byte Literal
+Assembles a byte into the program, followed by a zero byte for word alignment.
+
+.w - Word Literal
+Assembles a word into the program.
+
+.d - Doubleword Literal
+Assembles a doubleword into the program.
+
+.q - Quadword Literal
+Assembles a quadword into the program.
+
+.s - String Literal
+Assembles a string into the program. String will be terminated by one or two null
+characters, depending on the necessary padding.
+
+.ff - Float Literal
+Assembles a float (4-byte floating-point value) into the program.
+
+.fd - Double Literal
+Assembles a double (8-byte floating-point value) into the program.
